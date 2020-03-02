@@ -43,11 +43,9 @@ export default class MemoryGame extends Component {
       let screenSize = window.screen.width;
       var cols;
       var rows;
-
-      document.getElementById(`gameOverId`).style.visibility = 'visible';
       if(screenSize <= 800){
         cols =5;
-        rows = 10;
+        rows = 8;
       }
       else{
         cols = 10;
@@ -76,7 +74,7 @@ export default class MemoryGame extends Component {
       document.getElementById(`gameOverId`).style.visibility = 'visible';
       if(screenSize <= 800){
         cols =5;
-        rows = 10;
+        rows = 8;
       }
       else{
         cols = 10;
@@ -140,7 +138,7 @@ export default class MemoryGame extends Component {
                   );
                 })}
               </div>
-              <button id ="play" onClick= {()=> {RandomNine(GridPositions())}}>Play</button>
+              <button id ="play" onClick= {()=> {window.location.reload();}}>Refresh</button>
             </>
           );
     }
@@ -179,7 +177,7 @@ const GridPositions = () => {
     var rows;
     if(screenSize <= 800){
       cols =5;
-      rows = 10;
+      rows = 8;
     }
     else{
       cols = 10;
@@ -210,7 +208,7 @@ const getInitialGrid = () => {
     let screenSize = window.screen.width;
     if(screenSize <= 800){
       cols =5;
-      rows = 10;
+      rows = 8;
     }
     else{
       cols = 10;
