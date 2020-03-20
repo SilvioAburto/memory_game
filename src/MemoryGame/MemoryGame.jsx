@@ -136,12 +136,14 @@ export default class MemoryGame extends Component {
                 <Confetti
                   run={this.state.gameWonBool}
                 />
+                
                 <div id="gameOverId" className = "gameOver">
                   Game Over!
                 </div>
                 <div id="gameWonId" className = "gameWon">
                   You Win!
                 </div>
+                
                 {grid.map((row, rowIdx) => {
                   return (
                     <div key={rowIdx}>
@@ -163,7 +165,6 @@ export default class MemoryGame extends Component {
                   );
                 })}
               </div>
-              <button id ="play" onClick= {()=> {window.location.reload();}}>New Game</button>
               <Popup trigger={<button className="button">Instructions</button>} modal>
                   {close => (
                     <div className="modal">
@@ -172,17 +173,17 @@ export default class MemoryGame extends Component {
                       </a>
                       <div className="header">Instructions! </div>
                       <div className="content">
-                      <ul>
-                        <li>
-                          Memorize the numbers in the board. They are unique numbers from 1 to 9.
-                        </li>
-                        <li>
-                          To begin a game press on number 1 and procede to reveal the rest of the numbers in numerical order.
-                        </li>
-                        <li>
-                          If you reveal all numbers in order you win the game!
-                        </li>
-                      </ul>
+                        <ul>
+                          <li>
+                            Memorize the numbers in the board. They are unique numbers from 1 to 9.
+                          </li>
+                          <li>
+                            To begin a game press on number 1 and procede to reveal the rest of the numbers in numerical order.
+                          </li>
+                          <li>
+                            If you reveal all numbers in order you win the game!
+                          </li>
+                        </ul>
                       </div>
                       <div className="actions">
                         <button
@@ -195,6 +196,8 @@ export default class MemoryGame extends Component {
                     </div>
                   )}
                 </Popup>
+              <button id ="play" onClick= {()=> {window.location.reload();}}>New Game</button>
+ 
             </>
           );
     }

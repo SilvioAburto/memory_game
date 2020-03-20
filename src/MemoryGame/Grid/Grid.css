@@ -79,14 +79,43 @@
     color:blue;
   }
 
+  .popup-content {
+    position:absolute !important;
+    top:100px;
+    left:25%;
+    height:20%;
+  }
 
+  @media only screen and (max-width: 800px) {
+    .popup-content {
+      position:absolute !important;
+      top:20px;
+      left:5%;
+      height:80%;
+      width:90% !important;
+    }
+  }
+
+
+  
+  @media only screen and (max-width: 800px) {
+    .modal {
+      font-size: 5vw;
+      width: 100% !important;
+      margin-left: 1px;
+      margin-right: 1px;
+      margin-top: 2px;
+      margin-bottom: 100px;
+      border-radius: 4px;
+    }
+  }
   .modal {
     font-size: 12px;
-    height:200px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+    width: 100% !important;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 2px;
+    margin-bottom: 100px;
     border-radius: 4px;
   }
   .modal > .header {
