@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Grid from './Grid/Grid';
 import './MemoryGame.css'
+import Confetti from 'react-confetti'
+import Popup from "reactjs-popup";
 
 export default class MemoryGame extends Component {
     constructor(props){
@@ -8,38 +10,29 @@ export default class MemoryGame extends Component {
         this.state = {
             grid:[],
             mouseIsPressed:false,
-            nodesPlayed:[]
+            nodesPlayed:[],
+            gameWonBool:false
         };
-        //this.onMouseDown = this.onMouseDown.bind(this)
-        //this.getUpdatedGrid  = this.getUpdatedGrid.bind(this)
     }
     componentDidMount() {
-        //getScreenSize();
         const grid = getInitialGrid();
         this.setState({grid});
       }
-    
     handleMouseDown(row, col) {
       var _this = this
       const newGrid = getUpdatedGrid(this.state.grid, row, col);
       const node = newGrid[row][col];
-      //console.log(this.state.nodesPlayed)
       _this.state.nodesPlayed.push(node.cellId)
-      if(_this.state.nodesPlayed.length ===1){
+      if(_this.state.nodesPlayed.length === 1){
         this.startGame()
-        //console.log("first play")
       }
       this.gameLogic(node.cellId);
       this.setState({grid: newGrid,
-                    mouseIsPressed: true,
-
-                  }); //Update the state of the grid when mouse pressed
-      //console.log("mouse down" + newGrid[row][col].cellId)
-    
+                    mouseIsPressed: true
+                  }); 
     }
 
     startGame(){
-      //Hide numbers
       let screenSize = window.screen.width;
       var cols;
       var rows;
@@ -85,27 +78,53 @@ export default class MemoryGame extends Component {
           for(var j=0; j < cols; j++){
             const node = Grid[i][j]
             setTimeout(() => {
-              //console.log("changing")
-              //console.log(node.row)
-              //console.log(node.col)
               document.getElementById(`node-${node.row}-${node.col}`).className =
-              'node node-gameover';
+              'node node-gamefinished';
             }, 100 *i)
-            //console.log(Grid[i][j])
           }
       }
     }
 
+    gameWon(){
+      let screenSize = window.screen.width;
+      var cols;
+      var rows;
+
+      document.getElementById(`gameWonId`).style.visibility = 'visible';
+      if(screenSize <= 800){
+        cols =5;
+        rows = 8;
+      }
+      else{
+        cols = 10;
+        rows = 5;
+      }
+      const Grid = this.state.grid
+      for(var i=0; i < rows; i++){
+          for(var j=0; j < cols; j++){
+            const node = Grid[i][j]
+            setTimeout(() => {
+              document.getElementById(`node-${node.row}-${node.col}`).className =
+              'node node-gamefinished';
+            }, 100 *i)
+          }
+      }
+
+      this.setState({
+        gameWonBool: true
+      }); 
+    }
 
 
-
-  
     gameLogic(nodeId){
       var playedCount = this.state.nodesPlayed.length
       //Since the game will end as soon as the order logic breaks we can use a simple comparisson
       if(playedCount !== nodeId){
-        console.log("Game Over")
-        this.gameOver()
+        //console.log("Game Over")
+        this.gameOver();
+      }
+      else if (playedCount === 9){
+        this.gameWon();
       }
     }
     render(){
@@ -114,8 +133,14 @@ export default class MemoryGame extends Component {
         return (
             <>
               <div className="grid">
+                <Confetti
+                  run={this.state.gameWonBool}
+                />
                 <div id="gameOverId" className = "gameOver">
                   Game Over!
+                </div>
+                <div id="gameWonId" className = "gameWon">
+                  You Win!
                 </div>
                 {grid.map((row, rowIdx) => {
                   return (
@@ -138,7 +163,38 @@ export default class MemoryGame extends Component {
                   );
                 })}
               </div>
-              <button id ="play" onClick= {()=> {window.location.reload();}}>Refresh</button>
+              <button id ="play" onClick= {()=> {window.location.reload();}}>New Game</button>
+              <Popup trigger={<button className="button">Instructions</button>} modal>
+                  {close => (
+                    <div className="modal">
+                      <a className="close" onClick={close}>
+                        &times;
+                      </a>
+                      <div className="header">Instructions! </div>
+                      <div className="content">
+                      <ul>
+                        <li>
+                          Memorize the numbers in the board. They are unique numbers from 1 to 9.
+                        </li>
+                        <li>
+                          To begin a game press on number 1 and procede to reveal the rest of the numbers in numerical order.
+                        </li>
+                        <li>
+                          If you reveal all numbers in order you win the game!
+                        </li>
+                      </ul>
+                      </div>
+                      <div className="actions">
+                        <button
+                          className="button"
+                          onClick={() => {close();}}
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Popup>
             </>
           );
     }
@@ -263,20 +319,13 @@ const getInitialGrid = () => {
   };
 
   const getUpdatedGrid = (grid, row, col) => {
-
     const newGrid = grid.slice(); //extract current grid
-    const node = newGrid[row][col]; //node attributes when clicked
+    const node = newGrid[row][col]; //extract node attributes from row, col position
     const newNode = {
       ...node,
-      isActive: !node.isActive, //when a node is clicked set attribute to inactives
+      isActive: !node.isActive, //when a node is clicked set attribute isActive to false.
     };
     //console.log(newNode)
     newGrid[row][col] = newNode;
     return newGrid; //re-render new grid with updated values
   };
-
- const getScreenSize = () => {
-   console.log(window.screen.width)
-   return window.screen.width
-   //console.log("Screen size is" + window.screen.width)
- }

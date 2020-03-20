@@ -1,3 +1,10 @@
+## ABOUT
+This game was written using React. I wanted to recreate the game I saw in the following documental where a chimpanzee shows his ability to memorize numbers better than a human. [See Here](https://www.youtube.com/watch?v=zsXP8qeFF6A&list=LLz-tmp77PH_AWaq5KA45fDQ&index=2&t=0s)
+
+**Credit:** To come up with the grid logic I referenced code from [Clement Pathfinding Visualizer Tutorial](https://github.com/clementmihailescu/Pathfinding-Visualizer-Tutorial)
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
