@@ -23,13 +23,14 @@ export default class MemoryGame extends Component {
       const newGrid = getUpdatedGrid(this.state.grid, row, col);
       const node = newGrid[row][col];
       _this.state.nodesPlayed.push(node.cellId)
+      console.log(_this.state.nodesPlayed)
       if(_this.state.nodesPlayed.length === 1){
         this.startGame()
       }
       this.gameLogic(node.cellId);
       this.setState({grid: newGrid,
-                    mouseIsPressed: true
-                  }); 
+                     mouseIsPressed: true //change cell id to active when pressed
+                   }); 
     }
 
     startGame(){
@@ -49,10 +50,10 @@ export default class MemoryGame extends Component {
           for(var j=0; j < cols; j++){
             const node = Grid[i][j]
             setTimeout(() => {
-              if(node.isActive === 1){
-                document.getElementById(`node-${node.row}-${node.col}`).style.color = 'white';
+              if(node.isActive === 1 | node.cellId === 1){
+                document.getElementById(`node-${node.row}-${node.col}`).style.color = 'white'; //hide the numbers by turning them the same color as the background
               }
-              console.log(node.isActive)
+              //console.log(node.isActive)
             }, 10 *i)
             //console.log(Grid[i][j])
           }
@@ -127,6 +128,7 @@ export default class MemoryGame extends Component {
         this.gameWon();
       }
     }
+
     render(){
         const {grid} = this.state;
         //const nodesPlayed = this.state;
@@ -158,7 +160,7 @@ export default class MemoryGame extends Component {
                             isActive = {isActive}
                             cellId = {cellId}
                             >
-                        </Grid>
+                          </Grid>
                         );
                       })}
                     </div>
@@ -186,12 +188,7 @@ export default class MemoryGame extends Component {
                         </ul>
                       </div>
                       <div className="actions">
-                        <button
-                          className="button"
-                          onClick={() => {close();}}
-                        >
-                          Close
-                        </button>
+                        <button className="button" onClick={() => {close();}}> Close </button>
                       </div>
                     </div>
                   )}

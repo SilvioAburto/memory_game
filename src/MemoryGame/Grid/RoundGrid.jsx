@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './Grid.css'
 
-export default class Grid extends Component {
+export default class RoundGrid extends Component {
     constructor(props){
         super(props);
         this.state = {};
@@ -21,7 +21,7 @@ export default class Grid extends Component {
           
           //rendering individual node elements
           return (
-              <div id={`node-${row}-${col}`} className={`node ${extraClassName}`} onMouseDown = {() => onMouseDown(row,col)}>
+              <div id={`round-node-${row}-${col}`} className={`round-node ${extraClassName}`} onMouseDown = {() => onMouseDown(row,col)}>
                 <div className='node-num'>{cellId}</div>
               </div>             
           );
