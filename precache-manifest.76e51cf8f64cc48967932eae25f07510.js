@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "daad82e996d0f62f6ec725fd93c0b6e6",
+    "revision": "b22afdbee643665b679fbdf76b220484",
     "url": "/memory_game/index.html"
   },
   {
