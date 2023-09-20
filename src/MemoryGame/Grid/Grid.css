@@ -4,7 +4,7 @@
     display: inline-block;
     background-color: black;
     position: relative;
-    border:0.5px solid black;
+    border:1px solid gray;
     vertical-align: top; /*use this top remove horizontal white space between rows*/
     pointer-events: none;
   }
@@ -21,14 +21,15 @@
   pointer-events: none;
 }
 
+/*grid size for mobile */
   @media only screen and (max-width: 800px) {
     .node {
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       display: inline-block;
       background-color: black;
       position: relative;
-      border:0.5px solid black;
+      border:0.5px solid gray;
       vertical-align: top; /*use this top remove horizontal white space between rows*/
       pointer-events: none;
     }

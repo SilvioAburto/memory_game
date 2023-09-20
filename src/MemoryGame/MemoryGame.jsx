@@ -1,23 +1,48 @@
 import React, {Component} from 'react';
 import Grid from './Grid/Grid';
 import './MemoryGame.css'
+import './modal.css'
 import Confetti from 'react-confetti'
-import Popup from "reactjs-popup";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal'
+
 
 export default class MemoryGame extends Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
+            show : false,
+            showWin:false,
             grid:[],
             mouseIsPressed:false,
             nodesPlayed:[],
             gameWonBool:false
         };
+
     }
+
+    showWinModal = () => {
+      this.setState({showWin:true});
+    }
+    hideWinModal = () => {
+      this.setState({showWin:false});
+    }
+    showModal = () => {
+      console.log("Showing Modal");
+      this.setState({ show: true });
+    };
+  
+    hideModal = () => {
+      console.log("Hiding Modal");
+      this.setState({ show: false });
+    };
+
     componentDidMount() {
         const grid = getInitialGrid();
         this.setState({grid});
       }
+    
+    //Start the game once the
     handleMouseDown(row, col) {
       var _this = this
       const newGrid = getUpdatedGrid(this.state.grid, row, col);
@@ -28,21 +53,23 @@ export default class MemoryGame extends Component {
         this.startGame()
       }
       this.gameLogic(node.cellId);
+
+      //Update grid
       this.setState({grid: newGrid,
-                     mouseIsPressed: true //change cell id to active when pressed
+                     mouseIsPressed: true 
                    }); 
     }
 
     startGame(){
-      let screenSize = window.screen.width;
+      let screenWidth = window.screen.width;
       var cols;
       var rows;
-      if(screenSize <= 800){
+      if(screenWidth <= 800){
         cols =5;
-        rows = 8;
+        rows = 9;
       }
       else{
-        cols = 10;
+        cols = 9;
         rows = 5;
       }
       const Grid = this.state.grid
@@ -61,17 +88,17 @@ export default class MemoryGame extends Component {
     }
 
     gameOver(){
-      let screenSize = window.screen.width;
+      let screenWidth = window.screen.width;
       var cols;
       var rows;
 
       document.getElementById(`gameOverId`).style.visibility = 'visible';
-      if(screenSize <= 800){
+      if(screenWidth <= 800){
         cols =5;
-        rows = 8;
+        rows = 9;
       }
       else{
-        cols = 10;
+        cols = 9;
         rows = 5;
       }
       const Grid = this.state.grid
@@ -87,17 +114,17 @@ export default class MemoryGame extends Component {
     }
 
     gameWon(){
-      let screenSize = window.screen.width;
+      let screenWidth = window.screen.width;
       var cols;
       var rows;
-
-      document.getElementById(`gameWonId`).style.visibility = 'visible';
-      if(screenSize <= 800){
+      this.showWinModal();
+      //document.getElementById(`gameWonId`).style.visibility = 'visible';
+      if(screenWidth <= 800){
         cols =5;
-        rows = 8;
+        rows = 9;
       }
       else{
-        cols = 10;
+        cols = 9;
         rows = 5;
       }
       const Grid = this.state.grid
@@ -131,6 +158,8 @@ export default class MemoryGame extends Component {
 
     render(){
         const {grid} = this.state;
+        const {show} = this.state;
+        const {showWin} = this.state;
         //const nodesPlayed = this.state;
         return (
             <>
@@ -138,7 +167,6 @@ export default class MemoryGame extends Component {
                 <Confetti
                   run={this.state.gameWonBool}
                 />
-                
                 <div id="gameOverId" className = "gameOver">
                   Game Over!
                 </div>
@@ -167,33 +195,46 @@ export default class MemoryGame extends Component {
                   );
                 })}
               </div>
-              <Popup trigger={<button className="button">Instructions</button>} modal>
-                  {close => (
-                    <div className="modal">
-                      <a className="close" onClick={close}>
-                        &times;
-                      </a>
-                      <div className="header">Instructions! </div>
-                      <div className="content">
-                        <ul>
-                          <li>
-                            Memorize the numbers in the board. They are unique numbers from 1 to 9.
-                          </li>
-                          <li>
-                            To begin a game press on number 1 and procede to reveal the rest of the numbers in numerical order.
-                          </li>
-                          <li>
-                            If you reveal all numbers in order you win the game!
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="actions">
-                        <button className="button" onClick={() => {close();}}> Close </button>
-                      </div>
-                    </div>
-                  )}
-                </Popup>
-              <button id ="play" onClick= {()=> {window.location.reload();}}>New Game</button>
+              <Button variant = "Info" onClick = {this.showModal}>
+                Instructions
+              </Button>
+              <Modal show={show} onHide={this.hideModal} animation={false}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Instructions</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div class= "modal-body">
+                    <ul>
+                      <li>Memorize the location of the numbers on the grid in increasing order from 1-9</li>
+                      <li>To begin the game press on number 1 and proceed to reveal the rest of the numbers in numerical order.</li>
+                      <li>You win the game by revealing all numbers in order! Good luck!</li>
+                    </ul>                  
+                  </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.hideModal}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              
+              <Modal show={showWin} onHide={this.hideWinModal} animation={false}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Instructions</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div class= "modal-body">
+                    Congratulations you Win!!!               
+                  </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.hideWinModal}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              
+              <Button id ="play" variant = "Primary" className="btn-primary" onClick= {()=> {window.location.reload();}}>New Game</Button>
  
             </>
           );
@@ -228,15 +269,15 @@ const RandomNine = (array) => {
 
 const GridPositions = () => {
     let IndexRandom = [];
-    let screenSize = window.screen.width;
+    let screenWidth = window.screen.width;
     var cols;
     var rows;
-    if(screenSize <= 800){
+    if(screenWidth <= 800){
       cols =5;
-      rows = 8;
+      rows = 9;
     }
     else{
-      cols = 10;
+      cols = 9;
       rows = 5;
     }
     let counter = 0;
@@ -250,7 +291,6 @@ const GridPositions = () => {
                 id:0
             }
             IndexRandom.push(dict)
-            //console.log(i+"-"+j)
         }
     }
     return IndexRandom
@@ -261,13 +301,15 @@ const getInitialGrid = () => {
     const grid = [];
     var cols;
     var rows;
-    let screenSize = window.screen.width;
-    if(screenSize <= 800){
+    let screenWidth = window.screen.width;
+    //Phones
+    console.log("Screen width is "+ screenWidth);
+    if(screenWidth <= 800){
       cols =5;
-      rows = 8;
+      rows = 9;
     }
     else{
-      cols = 10;
+      cols = 9;
       rows = 5;
     }
     for (let row = 0; row < rows; row++) {
@@ -277,8 +319,6 @@ const getInitialGrid = () => {
       }
       grid.push(currentRow);
     }
-    //console.log("Initial Grid")
-    //console.log(grid)
     return grid;
   };
 
