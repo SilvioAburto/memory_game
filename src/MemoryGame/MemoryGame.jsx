@@ -80,9 +80,7 @@ export default class MemoryGame extends Component {
               if(node.isActive === 1 | node.cellId === 1){
                 document.getElementById(`node-${node.row}-${node.col}`).style.color = 'white'; //hide the numbers by turning them the same color as the background
               }
-              //console.log(node.isActive)
             }, 10 *i)
-            //console.log(Grid[i][j])
           }
       }
     }
@@ -146,9 +144,7 @@ export default class MemoryGame extends Component {
 
     gameLogic(nodeId){
       var playedCount = this.state.nodesPlayed.length
-      //Since the game will end as soon as the order logic breaks we can use a simple comparisson
       if(playedCount !== nodeId){
-        //console.log("Game Over")
         this.gameOver();
       }
       else if (playedCount === 9){
@@ -160,7 +156,6 @@ export default class MemoryGame extends Component {
         const {grid} = this.state;
         const {show} = this.state;
         const {showWin} = this.state;
-        //const nodesPlayed = this.state;
         return (
             <>
               <div className="grid">
@@ -220,7 +215,7 @@ export default class MemoryGame extends Component {
               
               <Modal show={showWin} onHide={this.hideWinModal} animation={false}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Instructions</Modal.Title>
+                  <Modal.Title>You Win!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div class= "modal-body">
@@ -244,26 +239,20 @@ export default class MemoryGame extends Component {
 
 const RandomNine = (array) => {
     var currentIndex = array.length, temporaryValue, randomIndex;
-    //temporaryValue & randomIndex are undefined at this point
-    // While there remain elements to shuffle...
+
     while (0 !== currentIndex) {
-        // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
-        //console.log(randomIndex)
-        currentIndex -= 1; //substract 1 from current index
-        // And swap it with the current element.
+        currentIndex -= 1; 
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
-        //newArray.push(Object.assign(array[currentIndex], {id:currentIndex}))
     }
 
     let NinePositions = array.slice(0,9)
     for(var i=0; i < NinePositions.length; i++){
         Object.assign(NinePositions[i], {id:i+1})
     }
-    //Filter the first 9 
-    //console.log(NinePositions)
+
     return NinePositions;
 }
 
@@ -296,7 +285,6 @@ const GridPositions = () => {
     return IndexRandom
 }
 
-//console.log(GridPositions())
 const getInitialGrid = () => {
     const grid = [];
     var cols;
